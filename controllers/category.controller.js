@@ -11,6 +11,17 @@ const getCategory = async (req, res) => {
   });
 };
 
+const createCategory = async (req, res) => {
+  const response = await categoryService.createCategory(req.body);
+  return res.json({
+    message: "Successfully created a new category",
+    success: true,
+    code: 201,
+    data: response,
+  });
+};
+
 module.exports = {
   getCategory,
+  createCategory,
 };
