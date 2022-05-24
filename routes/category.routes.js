@@ -7,6 +7,10 @@ const routes = (app) => {
   app.post("/ecomm/api/v1/categories", CategoryController.createCategory);
   app.delete("/ecomm/api/v1/categories/:id", CategoryController.deleteCategory);
   app.get("/ecomm/api/v1/categories/:id", CategoryController.getCategory);
+  app.get(
+    "/ecomm/api/v1/categoriesByName",
+    CategoryController.getCategoryByName
+  );
 };
 
 module.exports = routes;
