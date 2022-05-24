@@ -21,7 +21,17 @@ const createCategory = async (req, res) => {
   });
 };
 
+const deleteCategory = async (req, res) => {
+  await categoryService.deleteCategory(req.params.id);
+  return res.json({
+    message: "Successfully deleted a new category",
+    success: true,
+    code: 200,
+  });
+};
+
 module.exports = {
   getCategory,
   createCategory,
+  deleteCategory,
 };
