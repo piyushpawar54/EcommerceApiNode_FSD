@@ -10,6 +10,17 @@ const getProducts = async (req, res) => {
   });
 };
 
+const createProducts = async (req, res) => {
+  const response = await productService.createProduct(req.body);
+  res.json({
+    message: "Successfully created a product",
+    success: true,
+    code: 200,
+    data: response,
+  });
+};
+
 module.exports = {
   getProducts,
+  createProducts,
 };
