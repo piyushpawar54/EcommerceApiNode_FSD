@@ -13,8 +13,8 @@ app.use(bodyParser.json());
 categoryRoutes(app);
 
 app.get("/home", async function (req, res) {
-  const getproducts = await Product.findAll({ include: Categories });
-  res.json(getproducts);
+  const getCategories = await Categories.findAll({ include: Product });
+  res.json(getCategories);
 });
 
 app.listen(configs.PORT, async () => {
@@ -24,4 +24,5 @@ app.listen(configs.PORT, async () => {
     description: "apple ipad",
     categoryId: 1,
   }); */
+  console.log(`Server started at port ${configs.PORT}`);
 });
