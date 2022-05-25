@@ -11,6 +11,7 @@ const routes = (app) => {
     "/ecomm/api/v1/categoriesByName",
     CategoryController.getCategoryByName
   );
+  app.put("/ecomm/api/v1/categories/:id", CategoryController.updateCategory);
 };
 
 module.exports = routes;

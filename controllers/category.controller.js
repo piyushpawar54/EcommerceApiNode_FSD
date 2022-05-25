@@ -50,10 +50,24 @@ const getCategoryByName = async (req, res) => {
   });
 };
 
+const updateCategory = async (req, res) => {
+  const response = await categoryService.updateCategory(
+    req.params.id,
+    req.body
+  );
+  return res.json({
+    message: "Updated the category successfully",
+    success: true,
+    code: 200,
+    data: response,
+  });
+};
+
 module.exports = {
   getAllCategories,
   createCategory,
   deleteCategory,
   getCategory,
   getCategoryByName,
+  updateCategory,
 };
