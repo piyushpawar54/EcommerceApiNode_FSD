@@ -1,12 +1,12 @@
 const productService = require("../services/product.services");
 
 const getProducts = async (req, res) => {
-  const response = await productService.getProducts();
+  const products = await productService.getProducts(req.query);
   res.json({
-    message: "Fetched all the products successfully",
+    message: "Fetched all the products successfully!!",
     success: true,
     code: 200,
-    data: response,
+    data: products,
   });
 };
 
