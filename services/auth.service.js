@@ -1,5 +1,6 @@
 const User = require("../models/index").User;
 const bcrypt = require("bcryptjs");
+const res = require("express/lib/response");
 const jwt = require("jsonwebtoken");
 
 const signup = async (data) => {
@@ -19,6 +20,15 @@ const getUser = async (userEmail) => {
   return user;
 };
 
+const getUserById = async (userId) => {
+  const user = await User.findOne({
+    where: {
+      id: userId,
+    },
+  });
+  return user;
+};
+
 const checkPassword = (userPassword, encryptedPassword) => {
   return bcrypt.compareSync(userPassword, encryptedPassword);
 };
@@ -29,9 +39,21 @@ const createToken = (user) => {
   });
 };
 
+const verifyToken = (token) => {
+  try {
+    const response = jwt.verify(token, "relevel");
+    return response;
+  } catch (error) {
+    console.log("Token not verified");
+    console.log(error);
+  }
+};
+
 module.exports = {
   signup,
   getUser,
   checkPassword,
   createToken,
+  verifyToken,
+  getUserById,
 };
