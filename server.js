@@ -30,7 +30,7 @@ app.listen(configs.PORT, async () => {
     categoryId: 1,
   }); */
 
-  await db.sequelize.sync({ force: true });
+  //await db.sequelize.sync({ force: true });
 
   console.log(`Server started at port ${configs.PORT}`);
 });

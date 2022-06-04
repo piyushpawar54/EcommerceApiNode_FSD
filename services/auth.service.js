@@ -1,4 +1,5 @@
 const User = require("../models/index").User;
+const Role = require("../models/index").Role;
 const bcrypt = require("bcryptjs");
 const res = require("express/lib/response");
 const jwt = require("jsonwebtoken");
@@ -8,6 +9,12 @@ const signup = async (data) => {
     email: data.email,
     password: data.password,
   });
+  const customerRole = await Role.findOne({
+    where: {
+      name: "customer",
+    },
+  });
+  user.addRole(customerRole);
   return user;
 };
 
