@@ -4,6 +4,7 @@ const configs = require("./config/serverconfigs");
 const categoryRoutes = require("./routes/category.routes");
 const productRoutes = require("./routes/product.routes");
 const authRoutes = require("./routes/auth.routes");
+const db = require("./models/index");
 const app = express();
 
 const Product = require("./models/index").Product;
@@ -28,5 +29,8 @@ app.listen(configs.PORT, async () => {
     description: "apple ipad",
     categoryId: 1,
   }); */
+
+  await db.sequelize.sync({ force: true });
+
   console.log(`Server started at port ${configs.PORT}`);
 });
