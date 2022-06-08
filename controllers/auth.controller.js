@@ -38,7 +38,42 @@ const signin = async (req, res) => {
   });
 };
 
+const updateUser = async (req, res) => {
+  let user;
+  console.log(req.query);
+  if (req.query.addRoles == "false") {
+    console.log("Ikde ala.......");
+    user = Auth.removeRoleToUser(req.params.userId, req.body.roleId);
+  } else {
+    user = Auth.addRoleToUser(req.params.userId, req.body.roleId);
+  }
+  if (!user) {
+    return res.json({
+      code: 500,
+      message: "internal server error, something went wrong",
+      success: false,
+    });
+  }
+  return res.json({
+    code: 200,
+    message: "updated the user",
+    success: true,
+  });
+};
+
+const getRolesForUser = async (req, res) => {
+  const response = await Auth.getRolesForUser(req.params.userId);
+  return res.json({
+    code: 200,
+    message: "Successfully fetched the roles",
+    success: true,
+    data: response,
+  });
+};
+
 module.exports = {
   signup,
   signin,
+  updateUser,
+  getRolesForUser,
 };

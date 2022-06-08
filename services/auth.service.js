@@ -1,6 +1,7 @@
 const User = require("../models/index").User;
 const Role = require("../models/index").Role;
 const bcrypt = require("bcryptjs");
+const { use } = require("express/lib/application");
 const res = require("express/lib/response");
 const jwt = require("jsonwebtoken");
 
@@ -16,6 +17,64 @@ const signup = async (data) => {
   });
   user.addRole(customerRole);
   return user;
+};
+
+const addRoleToUser = async (userId, roleId) => {
+  console.log("idhar aayaaaaa ");
+  try {
+    const user = await User.findOne({
+      where: {
+        id: userId,
+      },
+    });
+
+    const role = await Role.findOne({
+      where: {
+        id: roleId,
+      },
+    });
+    user.addRole(role);
+    return user;
+  } catch (error) {
+    console.log("Something wend wrong");
+    console.log(error);
+  }
+};
+
+const removeRoleToUser = async (userId, roleId) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        id: userId,
+      },
+    });
+
+    const role = await Role.findOne({
+      where: {
+        id: roleId,
+      },
+    });
+    user.removeRole(role);
+    return user;
+  } catch (error) {
+    console.log("Something went wrong");
+    console.log(error);
+  }
+};
+
+const getRolesForUser = async (userId) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        id: userId,
+      },
+    });
+    const roles = await user.getRoles();
+    console.log(roles);
+    return roles;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const getUser = async (userEmail) => {
@@ -59,8 +118,11 @@ const verifyToken = (token) => {
 module.exports = {
   signup,
   getUser,
+  getRolesForUser,
   checkPassword,
   createToken,
   verifyToken,
   getUserById,
+  addRoleToUser,
+  removeRoleToUser,
 };
