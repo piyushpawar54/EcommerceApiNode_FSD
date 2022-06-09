@@ -1,6 +1,6 @@
 const AuthService = require("../services/auth.service");
 
-const isAuthenticated = (req, res, next) => {
+const isAuthenticated = async (req, res, next) => {
   let token = req.headers["x-access-token"];
   if (!token) {
     return res.json({
@@ -16,7 +16,7 @@ const isAuthenticated = (req, res, next) => {
     });
   }
   try {
-    const user = AuthService.getUserById(response.id);
+    const user = await AuthService.getUserById(response.id);
     req.user = user.id; //to determine the user which have authenticated session
     next();
   } catch (error) {
