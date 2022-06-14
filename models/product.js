@@ -14,6 +14,12 @@ module.exports = (sequelize, DataTypes) => {
           name: "categoryId",
         },
       });
+
+      this.belongsToMany(models.Cart, {
+        through: "Cart_Products",
+        foreignKey: "productId",
+        otherKey: "cartId",
+      });
     }
   }
   Product.init(
