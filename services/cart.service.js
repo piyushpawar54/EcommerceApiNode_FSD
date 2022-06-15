@@ -41,6 +41,42 @@ const addProductToCart = async (data) => {
   return cart;
 };
 
+const removeProductFromCart = async (data) => {
+  const cart = await Cart.findOne({
+    where: {
+      id: data.cartId,
+    },
+  });
+  if (!cart.status == "creation") {
+    return false;
+  }
+
+  const product = await Product.findOne({
+    where: {
+      id: data.productId,
+    },
+  });
+  const entry = await CartProduct.findOne({
+    where: {
+      cartId: cart.id,
+      productId: product.id,
+    },
+  });
+  if (!entry) {
+    return false;
+  } else {
+    let previousQuantity = entry.quantity;
+    if (previousQuantity == 1) {
+      cart.removeProduct(product);
+    } else {
+      entry.quantity = previousQuantity - 1;
+      await entry.save();
+    }
+  }
+
+  return cart;
+};
+
 const getCartByUser = async (uid, cartStatus) => {
   const cart = await Cart.findOne({
     where: {
@@ -51,8 +87,21 @@ const getCartByUser = async (uid, cartStatus) => {
   return cart;
 };
 
+const updateCartStatus = async (cartId, cartStatus) => {
+  const cart = Cart.findOne({
+    where: {
+      id: cartId,
+    },
+  });
+  cart.status = cartStatus;
+  await cart.save();
+  return cart;
+};
+
 module.exports = {
   createCart,
   addProductToCart,
   getCartByUser,
+  removeProductFromCart,
+  updateCartStatus,
 };
